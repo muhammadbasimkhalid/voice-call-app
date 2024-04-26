@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/Videocallscreen.dart';
+import 'package:flutter_application_1/utils/color.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LandingPage extends StatefulWidget {
@@ -19,53 +20,44 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 1;
     return Scaffold(
+      backgroundColor: AppColors.whiteonly,
       appBar: AppBar(
-        backgroundColor:Colors.green,
+        actions: [Padding(
+          padding: const EdgeInsets.only(right: 10.0),
+          child: Icon(Icons.more_vert,color: Colors.black,),
+        )],
       ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Text('Video-Calling', style: GoogleFonts.pacifico(fontSize: height * 0.05)),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width / 1.5,
-                child: TextFormField(
-                  controller: callIdController,
-                  decoration: InputDecoration(
-                    hintText: "Please enter call ID",
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+               Center(
+              child: Text(
+                    'Video Call',
+                    style: GoogleFonts.judson(
+                      fontSize: MediaQuery.of(context).size.width * 0.12,
+                      fontWeight: FontWeight.w400,
+                      height: 1.0,
+                    ),
                   ),
-                ),
+            ),
+                SizedBox(height: 20),
+              Image(
+                image: AssetImage('assets/undraw_video_call_re_4p26 2.png'),
+                height: MediaQuery.of(context).size.width * 0.6,
               ),
+              SizedBox(height: 20),
+              
+              textff(callIdController, 'Enter Call ID', TextInputType.number),
               const SizedBox(height: 20),
-              Container(
-                width: MediaQuery.of(context).size.width / 1.5,
-                child: TextFormField(
-                  controller: userIdController,
-                  decoration: InputDecoration(
-                    hintText: "Please enter user ID",
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-                  ),
-                ),
-              ),
+              textff(userIdController, 'Enter User ID', TextInputType.number),
+              
               const SizedBox(height: 20),
-              Container(
-                width: MediaQuery.of(context).size.width / 1.5,
-                child: TextFormField(
-                  controller: userNameController,
-                  decoration: InputDecoration(
-                    hintText: "Please enter username",
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-                  ),
-                ),
-              ),
+               textff(userNameController, 'Enter Username', TextInputType.number),
+             
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
+              button('Join the Call', 'assets/camera.png',  () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -77,14 +69,79 @@ class _LandingPageState extends State<LandingPage> {
                       ),
                     ),
                   );
-                },
-                style: ButtonStyle(elevation: MaterialStateProperty.all(10)),
-                child: Text("Join the call"),
-              ),
-            ],
+                }, context)
+             ],
           ),
         ),
       ),
     );
   }
+  textff(TextEditingController controller,String value,TextInputType type){
+    return  Container(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+               height: MediaQuery.of(context).size.width * 0.15,
+        width: MediaQuery.of(context).size.width * 0.9,
+              child: TextFormField(
+              
+                controller: controller,
+                keyboardType: type,
+                decoration: InputDecoration(
+                      
+                  labelText: value,
+                  labelStyle: GoogleFonts.judson(fontSize:20,fontWeight:FontWeight.w400,color:AppColors.whitegrey),
+
+                   border:  OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(20.0),
+                      borderSide: new BorderSide(color: Colors.black),
+                    ),
+                ),
+              
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a valid $value';
+                  }
+                  return null;
+                },
+              ),
+            );
+  }
+  
+  Widget button(String value, String val, onTap,BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: AppColors.green,
+        ),
+        height: MediaQuery.of(context).size.width * 0.15,
+        width: MediaQuery.of(context).size.width * 0.85,
+        padding: EdgeInsets.all(8.0),
+        margin: EdgeInsets.symmetric(vertical: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Image(
+              image: AssetImage(val),
+              height: MediaQuery.of(context).size.width * 0.1,
+              width: MediaQuery.of(context).size.width * 0.2,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right:40),
+              child: Text(
+                value,
+                style: GoogleFonts.judson(
+                  color: AppColors.whiteonly,
+                  fontSize: MediaQuery.of(context).size.width * 0.06,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+            
+          ],
+        ),
+      ),
+    );
+  }
+
 }
