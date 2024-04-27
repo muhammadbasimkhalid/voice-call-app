@@ -54,7 +54,7 @@ class _LandingPageState extends State<LandingPage> {
               textff(userIdController, 'Enter User ID', TextInputType.number),
               
               const SizedBox(height: 20),
-               textff(userNameController, 'Enter Username', TextInputType.number),
+               textff(userNameController, 'Enter Username', TextInputType.name),
              
               const SizedBox(height: 20),
               button('Join the Call', 'assets/camera.png',  () {
